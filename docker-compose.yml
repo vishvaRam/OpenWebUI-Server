@@ -1,0 +1,21 @@
+services:
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./Data:/app/backend/data
+    environment:
+      # Enable OpenAI API support (required for vLLM)
+      - ENABLE_OPENAI_API=True
+      # Disable Ollama to keep logs clean if not used
+      - ENABLE_OLLAMA_API=False
+      
+      # Disable authentication for this local-only instance
+      - WEBUI_AUTH=False
+      # Optional: Set a secret key for security
+      - WEBUI_SECRET_KEY=change-me
+    extra_hosts:
+      # Allows the container to reach the host at host.docker.internal
+      - "host.docker.internal:host-gateway"
